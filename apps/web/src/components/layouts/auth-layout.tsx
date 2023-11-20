@@ -1,5 +1,7 @@
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
+
+import { Icons } from "@/components/icons";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export function AuthLayout() {
   return (
@@ -10,6 +12,15 @@ export function AuthLayout() {
           alt="A casa blanca doing a high drop"
           className="absolute inset-0 object-cover h-full w-full"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-background to-background/60 md:to-background/40" />
+        <Link
+          to="/"
+          className="absolute left-8 top-6 z-20 flex items-center text-lg font-bold tracking-tight"
+        >
+          <Icons.hotel className="mr-2 h-6 w-6" aria-hidden="true" />
+          <span>Casa Blanca</span>
+        </Link>
+        <div className="absolute bottom-6 left-8 z-20 line-clamp-1 text-base"></div>
       </AspectRatio>
       <main className="container absolute top-1/2 col-span-1 flex -translate-y-1/2 items-center md:static md:top-0 md:col-span-2 md:flex md:translate-y-0 lg:col-span-1">
         <Outlet />

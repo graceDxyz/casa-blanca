@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUp, Eye, EyeOff, X } from "lucide-react";
+import { ArrowDown, ArrowUp, Eye, EyeOff, Hotel, X } from "lucide-react";
 
 type IconProps = React.HTMLAttributes<SVGElement>;
 
@@ -8,6 +8,7 @@ export const Icons = {
   close: X,
   view: Eye,
   hide: EyeOff,
+  hotel: Hotel,
   spinner: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"

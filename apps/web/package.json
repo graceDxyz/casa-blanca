@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist node_modules",
     "dev": "vite --host 0.0.0.0 --clearScreen false",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src/"
