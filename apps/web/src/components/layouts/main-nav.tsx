@@ -4,7 +4,7 @@ import { siteConfig } from '@/config/site';
 
 export function MainNav() {
   return (
-    <div className=" gap-6 flex">
+    <div className="gap-6 flex">
       <Link to="/" className="hidden items-center space-x-2 lg:flex">
         <Icons.hotel className="h-6 w-6" aria-hidden="true" />
         <span className="hidden font-bold lg:inline-block">
