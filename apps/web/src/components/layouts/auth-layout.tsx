@@ -12,7 +12,7 @@ export function AuthLayout() {
     return 'Loading...';
   }
 
-  if (isLoaded && isSignedIn) {
+  if (isSignedIn) {
     return <Navigate to="/dashboard" />;
   }
 
@@ -29,7 +29,7 @@ export function AuthLayout() {
           to="/"
           className="absolute left-8 top-6 z-20 flex items-center text-lg font-bold tracking-tight"
         >
-          <Icons.hotel className="mr-2 h-6 w-6" aria-hidden="true" />
+          <Icons.logo className="mr-2 h-6 w-6" aria-hidden="true" />
           <span>{siteConfig.name}</span>
         </Link>
         <div className="absolute bottom-6 left-8 z-20 line-clamp-1 text-base"></div>

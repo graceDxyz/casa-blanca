@@ -11,7 +11,7 @@ export function DashboardLayout() {
     return 'Loading...';
   }
 
-  if (isLoaded && !isSignedIn) {
+  if (!isSignedIn) {
     return <Navigate to="/" />;
   }
 
