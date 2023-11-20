@@ -1,5 +1,6 @@
-import { SignInForm } from "@/components/forms/signin-form";
-import { Shell } from "@/components/shells/shell";
+import { OAuthSignIn } from '@/components/auth/oauth-signin';
+import { SignInForm } from '@/components/forms/signin-form';
+import { Shell } from '@/components/shells/shell';
 import {
   Card,
   CardContent,
@@ -7,12 +8,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Link } from "react-router-dom";
+} from '@/components/ui/card';
+import { Link } from 'react-router-dom';
 
-interface Props {}
-
-function SignInPage({}: Props) {
+function SignInPage() {
   return (
     <Shell className="max-w-lg">
       <Card>
@@ -23,17 +22,17 @@ function SignInPage({}: Props) {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          {/* <OAuthSignIn />
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
-                </div>
-              </div> */}
+          <OAuthSignIn />
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                Or continue with
+              </span>
+            </div>
+          </div>
           <SignInForm />
         </CardContent>
         <CardFooter className="flex flex-wrap items-center justify-between gap-2">
@@ -49,13 +48,13 @@ function SignInPage({}: Props) {
               Sign up
             </Link>
           </div>
-          {/* <Link
+          <Link
             aria-label="Reset password"
-            href="/signin/reset-password"
+            to="reset-password"
             className="text-sm text-primary underline-offset-4 transition-colors hover:underline"
           >
             Reset password
-          </Link> */}
+          </Link>
         </CardFooter>
       </Card>
     </Shell>

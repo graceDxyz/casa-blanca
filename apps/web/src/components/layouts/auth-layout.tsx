@@ -1,9 +1,20 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet } from 'react-router-dom';
 
-import { Icons } from "@/components/icons";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Icons } from '@/components/icons';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { useUser } from '@clerk/clerk-react';
 
 export function AuthLayout() {
+  const { isLoaded, isSignedIn } = useUser();
+
+  if (!isLoaded) {
+    return 'Loading...';
+  }
+
+  if (isLoaded && isSignedIn) {
+    return <Navigate to="/dashboard" />;
+  }
+
   return (
     <div className="grid min-h-screen grid-cols-1 overflow-hidden md:grid-cols-3 lg:grid-cols-2">
       <AspectRatio ratio={16 / 9}>

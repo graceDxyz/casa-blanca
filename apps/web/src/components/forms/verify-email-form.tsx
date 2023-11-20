@@ -1,12 +1,10 @@
+import * as React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import React from 'react';
-import { useSignIn } from '@clerk/clerk-react';
-import { useNavigate } from 'react-router-dom';
+import type { z } from 'zod';
 
-import { Icons } from '@/components/icons';
-import { PasswordInput } from '@/components/password-input';
+import { catchClerkError } from '@/lib/utils';
+import { verifyEmailSchema } from '@/lib/validations/auth';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -17,23 +15,23 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { authSchema } from '@/lib/validations/auth';
-import { catchClerkError } from '@/lib/utils';
+import { Icons } from '@/components/icons';
+import { useSignUp } from '@clerk/clerk-react';
+import { useNavigate } from 'react-router-dom';
 
-type Inputs = z.infer<typeof authSchema>;
+type Inputs = z.infer<typeof verifyEmailSchema>;
 
-export function SignInForm() {
+export function VerifyEmailForm() {
   const navigate = useNavigate();
-  const { isLoaded, signIn, setActive } = useSignIn();
+  const { isLoaded, signUp, setActive } = useSignUp();
   const [isLoading, setLoading] = React.useState(false);
   const [isPending, startTransition] = React.useTransition();
 
   // react-hook-form
   const form = useForm<Inputs>({
-    resolver: zodResolver(authSchema),
+    resolver: zodResolver(verifyEmailSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      code: '',
     },
   });
 
@@ -43,18 +41,18 @@ export function SignInForm() {
     startTransition(async () => {
       try {
         setLoading(true);
-        const result = await signIn.create({
-          identifier: data.email,
-          password: data.password,
+        const completeSignUp = await signUp.attemptEmailAddressVerification({
+          code: data.code,
         });
-
-        if (result.status === 'complete') {
-          await setActive({ session: result.createdSessionId });
+        if (completeSignUp.status !== 'complete') {
+          /*  investigate the response, to see if there was an error
+             or if the user needs to complete more steps.*/
+          console.log(JSON.stringify(completeSignUp, null, 2));
+        }
+        if (completeSignUp.status === 'complete') {
+          await setActive({ session: completeSignUp.createdSessionId });
 
           navigate('/dashboard');
-        } else {
-          /*Investigate why the login hasn't completed */
-          console.log(result);
         }
         setLoading(false);
       } catch (err) {
@@ -72,43 +70,33 @@ export function SignInForm() {
       >
         <FormField
           control={form.control}
-          name="email"
+          name="code"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Verification Code</FormLabel>
               <FormControl>
                 <Input
-                  type="text"
-                  placeholder="john.doe@example.com"
+                  placeholder="169420"
                   {...field}
+                  onChange={(e) => {
+                    e.target.value = e.target.value.trim();
+                    field.onChange(e);
+                  }}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <PasswordInput placeholder="**********" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={isPending || isLoading}>
+        <Button disabled={isPending || isLoading}>
           {(isPending || isLoading) && (
             <Icons.spinner
               className="mr-2 h-4 w-4 animate-spin"
               aria-hidden="true"
             />
           )}
-          Sign in
-          <span className="sr-only">Sign in</span>
+          Create account
+          <span className="sr-only">Create account</span>
         </Button>
       </form>
     </Form>

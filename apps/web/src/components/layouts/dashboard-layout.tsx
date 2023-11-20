@@ -1,12 +1,23 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from 'react-router-dom';
+import { useUser } from '@clerk/clerk-react';
 
-import { SiteHeader } from "@/components/layouts/site-header";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { SiteHeader } from '@/components/layouts/site-header';
 
 export function DashboardLayout() {
+  const { isLoaded, isSignedIn, user } = useUser();
+
+  if (!isLoaded) {
+    return 'Loading...';
+  }
+
+  if (isLoaded && !isSignedIn) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
-      <SiteHeader />
+      <SiteHeader user={user} />
       <div className="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
         <aside className="fixed top-14 z-30 -ml-2 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 overflow-y-auto border-r md:sticky md:block">
           <ScrollArea className="py-6 pr-6 lg:py-8">
