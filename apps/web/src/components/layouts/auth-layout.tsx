@@ -3,6 +3,7 @@ import { Link, Navigate, Outlet } from 'react-router-dom';
 import { Icons } from '@/components/icons';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { useUser } from '@clerk/clerk-react';
+import { siteConfig } from '@/config/site';
 
 export function AuthLayout() {
   const { isLoaded, isSignedIn } = useUser();
@@ -29,7 +30,7 @@ export function AuthLayout() {
           className="absolute left-8 top-6 z-20 flex items-center text-lg font-bold tracking-tight"
         >
           <Icons.hotel className="mr-2 h-6 w-6" aria-hidden="true" />
-          <span>Casa Blanca</span>
+          <span>{siteConfig.name}</span>
         </Link>
         <div className="absolute bottom-6 left-8 z-20 line-clamp-1 text-base"></div>
       </AspectRatio>
