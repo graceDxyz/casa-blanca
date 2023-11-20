@@ -3,10 +3,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { AuthLayout } from "@/components/layouts/auth-layout";
 import { Toaster } from "@/components/ui/toaster";
+import { DashboardLayout } from "./components/layouts/dashboard-layout";
 import { TailwindIndicator } from "./components/tailwind-indicator";
 
 const SignInPage = lazy(() => import("@/pages/auth/SignInPage"));
 const SignUpPage = lazy(() => import("@/pages/auth/SignUpPage"));
+const DashboardPage = lazy(() => import("@/pages/dashboard/DashboardPage"));
+const PayrollPage = lazy(() => import("@/pages/dashboard/PayrollPage"));
+const PosPage = lazy(() => import("@/pages/dashboard/PosPage"));
 
 function App() {
   const router = createBrowserRouter([
@@ -27,6 +31,36 @@ function App() {
           element: (
             <Suspense fallback={"loading..."}>
               <SignUpPage />
+            </Suspense>
+          ),
+        },
+      ],
+    },
+    {
+      path: "/dashboard",
+      element: <DashboardLayout />,
+      children: [
+        {
+          index: true,
+          element: (
+            <Suspense fallback={"loading..."}>
+              <DashboardPage />
+            </Suspense>
+          ),
+        },
+        {
+          path: "payroll",
+          element: (
+            <Suspense fallback={"loading..."}>
+              <PayrollPage />
+            </Suspense>
+          ),
+        },
+        {
+          path: "pos",
+          element: (
+            <Suspense fallback={"loading..."}>
+              <PosPage />
             </Suspense>
           ),
         },
