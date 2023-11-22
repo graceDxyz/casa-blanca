@@ -19,12 +19,12 @@ export default defineConfig(({ command, mode }) => {
       ...defaultConfig,
       server: {
         proxy: {
-          '/api': {
+          '/graphql': {
             target: isDev
-              ? 'http://localhost:5000'
+              ? 'http://localhost:5000/graphql'
               : 'https://agri-map-58go.onrender.com',
-            // changeOrigin: isDev,
-            // secure: !isDev,
+            changeOrigin: true,
+            rewrite: (p) => p.replace(/^\/graphql/, ''),
           },
         },
       },

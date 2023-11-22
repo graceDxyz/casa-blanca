@@ -24,6 +24,9 @@
     },
     "clean": {
       "cache": false
+    },
+    "codegen": {
+      "cache": false
     }
   }
 }

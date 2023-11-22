@@ -5,6 +5,7 @@ import {
   Eye,
   EyeOff,
   Hotel,
+  Wine,
   X,
 } from 'lucide-react';
 
@@ -17,7 +18,7 @@ export const Icons = {
   view: Eye,
   hide: EyeOff,
   columns: Columns,
-  logo: Hotel,
+  logo: Wine,
   google: ({ ...props }: IconProps) => (
     <svg role="img" viewBox="0 0 24 24" {...props}>
       <path
