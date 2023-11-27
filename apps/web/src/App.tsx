@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
 import {
   createBrowserRouter,
@@ -9,10 +10,11 @@ import { SSOCallback } from "@/components/auth/sso-callback";
 import ErrorElement from "@/components/elements/ErrorElement";
 import { AuthLayout } from "@/components/layouts/auth-layout";
 import { DashboardLayout } from "@/components/layouts/dashboard-layout";
+import DashboardLoading from "@/components/loaders/dashboard-loader";
+import RoomsLoading from "@/components/loaders/room-loader";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { Toaster } from "@/components/ui/toaster";
-import { roomsLoader } from "@/services/room.service";
-import { useQueryClient } from "@tanstack/react-query";
+import { roomLoader } from "@/services/room.service";
 
 const SignInPage = lazy(() => import("@/pages/auth/SignInPage"));
 const ResetPasswordPage = lazy(() => import("@/pages/auth/ResetPasswordPage"));
@@ -25,7 +27,9 @@ const VerifyEmailPage = lazy(() => import("@/pages/auth/VerifyEmailPage"));
 const PayrollPage = lazy(() => import("@/pages/dashboard/PayrollPage"));
 const PosPage = lazy(() => import("@/pages/dashboard/PosPage"));
 const AccountPage = lazy(() => import("@/pages/dashboard/AccountPage"));
+const RoomPage = lazy(() => import("@/pages/dashboard/RoomPage"));
 const RoomsPage = lazy(() => import("@/pages/dashboard/RoomsPage"));
+const UsersPage = lazy(() => import("@/pages/dashboard/UsersPage"));
 
 function App() {
   const queryClient = useQueryClient();
@@ -109,11 +113,21 @@ function App() {
           children: [
             {
               index: true,
-              loader: roomsLoader(queryClient),
+              // loader: roomsLoader(queryClient),
+              errorElement: <ErrorElement />,
+              element: (
+                <Suspense fallback={<RoomsLoading />}>
+                  <RoomsPage />
+                </Suspense>
+              ),
+            },
+            {
+              path: ":roomId",
+              loader: roomLoader(queryClient),
               errorElement: <ErrorElement />,
               element: (
                 <Suspense fallback="loading...">
-                  <RoomsPage />
+                  <RoomPage />
                 </Suspense>
               ),
             },
@@ -136,6 +150,16 @@ function App() {
           ),
         },
         {
+          path: "users",
+          // loader: usersLoader(queryClient),
+          errorElement: <ErrorElement />,
+          element: (
+            <Suspense fallback="loading...">
+              <UsersPage />
+            </Suspense>
+          ),
+        },
+        {
           path: "account",
           element: (
             <Suspense fallback="loading...">
@@ -148,7 +172,7 @@ function App() {
   ]);
   return (
     <>
-      <RouterProvider router={router} />
+      <RouterProvider router={router} fallbackElement={<DashboardLoading />} />
       <Toaster />
       <TailwindIndicator />
     </>

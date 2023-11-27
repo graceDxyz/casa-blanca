@@ -11,6 +11,7 @@ export const dashboardConfig: DashboardConfig = {
       href: "/dashboard",
       icon: "terminal",
       items: [],
+      audience: ["admin", "super_admin"],
     },
     {
       title: "Rooms",
@@ -19,10 +20,17 @@ export const dashboardConfig: DashboardConfig = {
       items: [],
     },
     {
-      title: "Account",
-      href: "/dashboard/account",
-      icon: "avatar",
+      title: "Users",
+      href: "/dashboard/users",
+      icon: "users",
       items: [],
+      audience: ["super_admin"],
     },
+    // {
+    //   title: "Account",
+    //   href: "/dashboard/account",
+    //   icon: "avatar",
+    //   items: [],
+    // },
   ],
 };

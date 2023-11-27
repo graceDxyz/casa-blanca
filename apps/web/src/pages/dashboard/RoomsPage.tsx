@@ -1,3 +1,4 @@
+import RoomsLoading from "@/components/loaders/room-loader";
 import {
   PageHeader,
   PageHeaderDescription,
@@ -18,14 +19,14 @@ function DashboardPage() {
   });
 
   if (isLoading) {
-    return "Loading...";
+    return <RoomsLoading />;
   }
 
   return (
     <Shell variant="sidebar">
       <PageHeader
-        id="account-header"
-        aria-labelledby="account-header-heading"
+        id="rooms-header"
+        aria-labelledby="rooms-header-heading"
         separated
       >
         <PageHeaderHeading size="sm">Rooms</PageHeaderHeading>

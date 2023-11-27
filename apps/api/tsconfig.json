@@ -3,6 +3,7 @@
     "lib": ["ES2015"],
     "module": "CommonJS",
     "outDir": "./dist",
+    "noImplicitAny": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

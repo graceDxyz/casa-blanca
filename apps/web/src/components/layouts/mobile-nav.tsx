@@ -1,7 +1,6 @@
 import * as React from "react";
 
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
+import { Icons } from "@/components/icons";
 import {
   Accordion,
   AccordionContent,
@@ -11,9 +10,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Icons } from "@/components/icons";
-import { Link, useLocation } from "react-router-dom";
+import { siteConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
 import { MainNavItem, SidebarNavItem } from "@/types";
+import { useUser } from "@clerk/clerk-react";
+import { Link, useLocation } from "react-router-dom";
 
 interface MobileNavProps {
   mainNavItems?: MainNavItem[];
@@ -21,14 +22,22 @@ interface MobileNavProps {
 }
 
 export function MobileNav({ mainNavItems, sidebarNavItems }: MobileNavProps) {
+  const { user } = useUser();
   const location = useLocation();
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const role = user?.publicMetadata.role ?? "user";
 
   const navItems = React.useMemo(() => {
     const items = mainNavItems ?? [];
     const myAccountItem = {
       title: "My Account",
-      items: sidebarNavItems,
+      items: sidebarNavItems.filter((item) => {
+        if (item.audience && item.audience.length > 0) {
+          return item.audience.includes(role);
+        }
+        return true;
+      }),
     };
     const myAccountIndex = items.findIndex(
       (item) => item.title === "My Account",
@@ -38,7 +47,7 @@ export function MobileNav({ mainNavItems, sidebarNavItems }: MobileNavProps) {
     }
     items.splice(1, 0, myAccountItem);
     return items;
-  }, [mainNavItems, sidebarNavItems]);
+  }, [mainNavItems, sidebarNavItems, role]);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>

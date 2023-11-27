@@ -5,7 +5,7 @@ export interface RoomInput {
   description: string;
 }
 
-export interface IRoom extends RoomInput, mongoose.Document {
+export interface RoomDocument extends RoomInput, mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
 }
@@ -29,6 +29,6 @@ const roomSchema = new mongoose.Schema(
   },
 );
 
-const RoomModel = mongoose.model<IRoom>("Room", roomSchema);
+const RoomModel = mongoose.model<RoomDocument>("Room", roomSchema);
 
 export default RoomModel;

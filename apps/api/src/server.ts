@@ -1,15 +1,10 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import {
-  ClerkExpressRequireAuth,
-  ClerkExpressWithAuth,
-  RequireAuthProp,
-  StrictAuthProp,
-  WithAuthProp,
-} from "@clerk/clerk-sdk-node";
+import { StrictAuthProp } from "@clerk/clerk-sdk-node";
 import cors from "cors";
-import express, { Request, Response, type Express } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
+import logger from "logger";
 import morgan from "morgan";
 
 import routes from "@/routes";
@@ -32,33 +27,19 @@ export const createServer = (): Express => {
         credentials: true,
       }),
     )
-    .get("/message/:name", (req, res) => {
-      return res.json({ message: `hello ${req.params.name}` });
-    })
     .get("/status", (_, res) => {
       return res.json({ ok: true });
-    })
-    .get(
-      "/api/unprotected-route",
-      ClerkExpressWithAuth({}),
-      (req: WithAuthProp<Request>, res: Response) => {
-        res.json(req.auth);
-      },
-    )
-    .get(
-      "/api/protected-route",
-      ClerkExpressRequireAuth({}),
-      (req: RequireAuthProp<Request>, res: Response) => {
-        console.log(req.auth);
-        res.json(req.auth);
-      },
-    );
+    });
 
   app.use("/api", routes);
 
-  // @ts-ignore
-  app.use((err, req, res, next) => {
-    console.error(err.stack);
+  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    if (err.stack && err.stack.includes("Unauthenticated")) {
+      res.status(401).send({ message: "Unauthenticated!" });
+    } else {
+      logger.error(err.stack);
+      res.status(500).send({ message: "Internal Server Error" });
+    }
   });
 
   return app;

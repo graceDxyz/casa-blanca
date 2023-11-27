@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { IRoom } from "./room.model";
+import { RoomDocument } from "./room.model";
 
 export interface TableInput {
-  room: IRoom["_id"];
+  room: RoomDocument["_id"];
   name: string;
   description: string;
   capacity: number;
