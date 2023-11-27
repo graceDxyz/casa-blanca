@@ -4,9 +4,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { ResetPasswordForm } from '@/components/forms/reset-password-form';
-import { Shell } from '@/components/shells/shell';
+} from "@/components/ui/card";
+import { ResetPasswordForm } from "@/components/forms/reset-password-form";
+import { Shell } from "@/components/shells/shell";
 
 export default function ResetPasswordPage() {
   return (

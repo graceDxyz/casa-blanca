@@ -1,8 +1,8 @@
-import { useClerk } from '@clerk/clerk-react';
-import * as React from 'react';
+import { useClerk } from "@clerk/clerk-react";
+import * as React from "react";
 
-import { Icons } from '@/components/icons';
-import { type SSOCallbackPageProps } from '@/pages/auth/SsoCallbackPage';
+import { Icons } from "@/components/icons";
+import { type SSOCallbackPageProps } from "@/pages/auth/SsoCallbackPage";
 
 export function SSOCallback({ searchParams }: SSOCallbackPageProps) {
   const { handleRedirectCallback } = useClerk();

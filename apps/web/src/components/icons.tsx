@@ -1,17 +1,22 @@
 import {
   ArrowDown,
   ArrowUp,
+  Cog,
   Columns,
   Eye,
   EyeOff,
-  Hotel,
+  FileTerminal,
+  UserCircle,
   Wine,
   X,
-} from 'lucide-react';
+  Image,
+  Box,
+} from "lucide-react";
 
 type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
+  avatar: UserCircle,
   arrowUp: ArrowUp,
   arrowDown: ArrowDown,
   close: X,
@@ -19,6 +24,10 @@ export const Icons = {
   hide: EyeOff,
   columns: Columns,
   logo: Wine,
+  terminal: FileTerminal,
+  gear: Cog,
+  placeholder: Image,
+  box: Box,
   google: ({ ...props }: IconProps) => (
     <svg role="img" viewBox="0 0 24 24" {...props}>
       <path

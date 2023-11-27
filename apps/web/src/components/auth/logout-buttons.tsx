@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { SignOutButton } from '@clerk/clerk-react';
+import * as React from "react";
+import { SignOutButton } from "@clerk/clerk-react";
 
-import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
-import { useNavigate } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/icons";
+import { useNavigate } from "react-router-dom";
 
 export function LogOutButton() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export function LogOutButton() {
   return (
     <SignOutButton
       signOutCallback={() => {
-        navigate('/', { replace: true });
+        navigate("/", { replace: true });
       }}
     >
       <Button

@@ -1,13 +1,13 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import React from 'react';
-import { useSignIn } from '@clerk/clerk-react';
-import { useNavigate } from 'react-router-dom';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import React from "react";
+import { useSignIn } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
-import { Icons } from '@/components/icons';
-import { PasswordInput } from '@/components/password-input';
-import { Button } from '@/components/ui/button';
+import { Icons } from "@/components/icons";
+import { PasswordInput } from "@/components/password-input";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,10 +15,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { authSchema } from '@/lib/validations/auth';
-import { catchClerkError } from '@/lib/utils';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { authSchema } from "@/lib/validations/auth";
+import { catchClerkError } from "@/lib/utils";
 
 type Inputs = z.infer<typeof authSchema>;
 
@@ -32,8 +32,8 @@ export function SignInForm() {
   const form = useForm<Inputs>({
     resolver: zodResolver(authSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
@@ -48,10 +48,10 @@ export function SignInForm() {
           password: data.password,
         });
 
-        if (result.status === 'complete') {
+        if (result.status === "complete") {
           await setActive({ session: result.createdSessionId });
 
-          navigate('/dashboard');
+          navigate("/dashboard");
         } else {
           /*Investigate why the login hasn't completed */
           console.log(result);

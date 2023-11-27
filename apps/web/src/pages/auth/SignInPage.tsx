@@ -1,6 +1,6 @@
-import { OAuthSignIn } from '@/components/auth/oauth-signin';
-import { SignInForm } from '@/components/forms/signin-form';
-import { Shell } from '@/components/shells/shell';
+import { OAuthSignIn } from "@/components/auth/oauth-signin";
+import { SignInForm } from "@/components/forms/signin-form";
+import { Shell } from "@/components/shells/shell";
 import {
   Card,
   CardContent,
@@ -8,8 +8,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Link } from 'react-router-dom';
+} from "@/components/ui/card";
+import { Link } from "react-router-dom";
 
 function SignInPage() {
   return (

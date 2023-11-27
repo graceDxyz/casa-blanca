@@ -1,14 +1,14 @@
-import { isClerkAPIResponseError, useSignIn } from '@clerk/clerk-react';
-import { type OAuthStrategy } from '@clerk/types';
-import * as React from 'react';
+import { isClerkAPIResponseError, useSignIn } from "@clerk/clerk-react";
+import { type OAuthStrategy } from "@clerk/types";
+import * as React from "react";
 
-import { Icons } from '@/components/icons';
-import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
+import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const oauthProviders = [
-  { name: 'Google', strategy: 'oauth_google', icon: 'google' },
-  { name: 'Facebook', strategy: 'oauth_facebook', icon: 'facebook' },
+  { name: "Google", strategy: "oauth_google", icon: "google" },
+  { name: "Facebook", strategy: "oauth_facebook", icon: "facebook" },
 ] satisfies {
   name: string;
   icon: keyof typeof Icons;
@@ -25,13 +25,13 @@ export function OAuthSignIn() {
       setIsLoading(provider);
       await signIn.authenticateWithRedirect({
         strategy: provider,
-        redirectUrl: '/sso-callback',
-        redirectUrlComplete: '/dashboard',
+        redirectUrl: "/sso-callback",
+        redirectUrlComplete: "/dashboard",
       });
     } catch (error) {
       setIsLoading(null);
 
-      const unknownError = 'Something went wrong, please try again.';
+      const unknownError = "Something went wrong, please try again.";
       console.log(error);
       isClerkAPIResponseError(error)
         ? toast.error(error.errors[0]?.longMessage ?? unknownError)

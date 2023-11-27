@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { Icons } from '@/components/icons';
-import { siteConfig } from '@/config/site';
+import { Link } from "react-router-dom";
+import { Icons } from "@/components/icons";
+import { siteConfig } from "@/config/site";
 
 export function MainNav() {
   return (

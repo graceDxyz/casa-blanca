@@ -1,39 +1,44 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { siteConfig } from '@/config/site';
-import { cn } from '@/lib/utils';
+import { siteConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Icons } from '@/components/icons';
-import { Link } from 'react-router-dom';
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Icons } from "@/components/icons";
+import { Link, useLocation } from "react-router-dom";
+import { MainNavItem, SidebarNavItem } from "@/types";
 
-interface MobileNavProps {}
+interface MobileNavProps {
+  mainNavItems?: MainNavItem[];
+  sidebarNavItems: SidebarNavItem[];
+}
 
-export function MobileNav({}: MobileNavProps) {
+export function MobileNav({ mainNavItems, sidebarNavItems }: MobileNavProps) {
+  const location = useLocation();
   const [isOpen, setIsOpen] = React.useState(false);
 
-  // const navItems = React.useMemo(() => {
-  //   const items = mainNavItems ?? []
-  //   const myAccountItem = {
-  //     title: "My Account",
-  //     items: sidebarNavItems,
-  //   }
-  //   const myAccountIndex = items.findIndex(
-  //     (item) => item.title === "My Account"
-  //   )
-  //   if (myAccountIndex !== -1) {
-  //     items.splice(myAccountIndex, 1)
-  //   }
-  //   items.splice(1, 0, myAccountItem)
-  //   return items
-  // }, [mainNavItems, sidebarNavItems])
+  const navItems = React.useMemo(() => {
+    const items = mainNavItems ?? [];
+    const myAccountItem = {
+      title: "My Account",
+      items: sidebarNavItems,
+    };
+    const myAccountIndex = items.findIndex(
+      (item) => item.title === "My Account",
+    );
+    if (myAccountIndex !== -1) {
+      items.splice(myAccountIndex, 1);
+    }
+    items.splice(1, 0, myAccountItem);
+    return items;
+  }, [mainNavItems, sidebarNavItems]);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -60,43 +65,43 @@ export function MobileNav({}: MobileNavProps) {
         </div>
         <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
           <div className="pl-1 pr-7">
-            {/* <Accordion */}
-            {/*   type="multiple" */}
-            {/*   defaultValue={navItems.map((item) => item.title)} */}
-            {/*   className="w-full" */}
-            {/* > */}
-            {/*   {navItems?.map((item, index) => ( */}
-            {/*     <AccordionItem value={item.title} key={index}> */}
-            {/*       <AccordionTrigger className="text-sm capitalize"> */}
-            {/*         {item.title} */}
-            {/*       </AccordionTrigger> */}
-            {/*       <AccordionContent> */}
-            {/*         <div className="flex flex-col space-y-2"> */}
-            {/*           {item.items?.map((subItem, index) => */}
-            {/*             subItem.href ? ( */}
-            {/*               <MobileLink */}
-            {/*                 key={index} */}
-            {/*                 href={String(subItem.href)} */}
-            {/*                 segment={String(segment)} */}
-            {/*                 setIsOpen={setIsOpen} */}
-            {/*                 disabled={subItem.disabled} */}
-            {/*               > */}
-            {/*                 {subItem.title} */}
-            {/*               </MobileLink> */}
-            {/*             ) : ( */}
-            {/*               <div */}
-            {/*                 key={index} */}
-            {/*                 className="text-foreground/70 transition-colors" */}
-            {/*               > */}
-            {/*                 {item.title} */}
-            {/*               </div> */}
-            {/*             ) */}
-            {/*           )} */}
-            {/*         </div> */}
-            {/*       </AccordionContent> */}
-            {/*     </AccordionItem> */}
-            {/*   ))} */}
-            {/* </Accordion> */}
+            <Accordion
+              type="multiple"
+              defaultValue={navItems.map((item) => item.title)}
+              className="w-full"
+            >
+              {navItems?.map((item, index) => (
+                <AccordionItem value={item.title} key={index}>
+                  <AccordionTrigger className="text-sm capitalize">
+                    {item.title}
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="flex flex-col space-y-2">
+                      {item.items?.map((subItem, index) =>
+                        subItem.href ? (
+                          <MobileLink
+                            key={index}
+                            href={String(subItem.href)}
+                            segment={location.pathname}
+                            setIsOpen={setIsOpen}
+                            disabled={subItem.disabled}
+                          >
+                            {subItem.title}
+                          </MobileLink>
+                        ) : (
+                          <div
+                            key={index}
+                            className="text-foreground/70 transition-colors"
+                          >
+                            {item.title}
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </ScrollArea>
       </SheetContent>
@@ -105,7 +110,7 @@ export function MobileNav({}: MobileNavProps) {
 }
 
 interface MobileLinkProps extends React.PropsWithChildren {
-  to: string;
+  href: string;
   disabled?: boolean;
   segment: string;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -113,18 +118,18 @@ interface MobileLinkProps extends React.PropsWithChildren {
 
 function MobileLink({
   children,
-  to,
+  href,
   disabled,
   segment,
   setIsOpen,
 }: MobileLinkProps) {
   return (
     <Link
-      to={to}
+      to={href}
       className={cn(
-        'text-foreground/70 transition-colors hover:text-foreground',
-        href.includes(segment) && 'text-foreground',
-        disabled && 'pointer-events-none opacity-60',
+        "text-foreground/70 transition-colors hover:text-foreground",
+        href.includes(segment) && "text-foreground",
+        disabled && "pointer-events-none opacity-60",
       )}
       onClick={() => setIsOpen(false)}
     >

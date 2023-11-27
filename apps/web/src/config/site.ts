@@ -1,3 +1,3 @@
 export const siteConfig = {
-  name: 'Casa Blanca',
+  name: "Casa Blanca",
 };

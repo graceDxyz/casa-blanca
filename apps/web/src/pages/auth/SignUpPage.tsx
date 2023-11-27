@@ -1,6 +1,6 @@
-import { OAuthSignIn } from '@/components/auth/oauth-signin';
-import { SignUpForm } from '@/components/forms/signup-form';
-import { Shell } from '@/components/shells/shell';
+import { OAuthSignIn } from "@/components/auth/oauth-signin";
+import { SignUpForm } from "@/components/forms/signup-form";
+import { Shell } from "@/components/shells/shell";
 import {
   Card,
   CardContent,
@@ -8,8 +8,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Link } from 'react-router-dom';
+} from "@/components/ui/card";
+import { Link } from "react-router-dom";
 
 function SignUpPage() {
   return (
@@ -37,7 +37,7 @@ function SignUpPage() {
         </CardContent>
         <CardFooter>
           <div className="text-sm text-muted-foreground">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link
               aria-label="Sign in"
               to="/"

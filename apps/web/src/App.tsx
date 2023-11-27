@@ -1,36 +1,42 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense } from "react";
 import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import { SSOCallback } from '@/components/auth/sso-callback';
-import { AuthLayout } from '@/components/layouts/auth-layout';
-import { DashboardLayout } from '@/components/layouts/dashboard-layout';
-import { TailwindIndicator } from '@/components/tailwind-indicator';
-import { Toaster } from '@/components/ui/toaster';
+import { SSOCallback } from "@/components/auth/sso-callback";
+import ErrorElement from "@/components/elements/ErrorElement";
+import { AuthLayout } from "@/components/layouts/auth-layout";
+import { DashboardLayout } from "@/components/layouts/dashboard-layout";
+import { TailwindIndicator } from "@/components/tailwind-indicator";
+import { Toaster } from "@/components/ui/toaster";
+import { roomsLoader } from "@/services/room.service";
+import { useQueryClient } from "@tanstack/react-query";
 
-const SignInPage = lazy(() => import('@/pages/auth/SignInPage'));
-const ResetPasswordPage = lazy(() => import('@/pages/auth/ResetPasswordPage'));
+const SignInPage = lazy(() => import("@/pages/auth/SignInPage"));
+const ResetPasswordPage = lazy(() => import("@/pages/auth/ResetPasswordPage"));
 const ResetPasswordStep2Page = lazy(
-  () => import('@/pages/auth/ResetPasswordStep2Page'),
+  () => import("@/pages/auth/ResetPasswordStep2Page"),
 );
-const SignUpPage = lazy(() => import('@/pages/auth/SignUpPage'));
-const VerifyEmailPage = lazy(() => import('@/pages/auth/VerifyEmailPage'));
-const DashboardPage = lazy(() => import('@/pages/dashboard/DashboardPage'));
-const PayrollPage = lazy(() => import('@/pages/dashboard/PayrollPage'));
-const PosPage = lazy(() => import('@/pages/dashboard/PosPage'));
+const SignUpPage = lazy(() => import("@/pages/auth/SignUpPage"));
+const VerifyEmailPage = lazy(() => import("@/pages/auth/VerifyEmailPage"));
+// const DashboardPage = lazy(() => import("@/pages/dashboard/DashboardPage"));
+const PayrollPage = lazy(() => import("@/pages/dashboard/PayrollPage"));
+const PosPage = lazy(() => import("@/pages/dashboard/PosPage"));
+const AccountPage = lazy(() => import("@/pages/dashboard/AccountPage"));
+const RoomsPage = lazy(() => import("@/pages/dashboard/RoomsPage"));
 
 function App() {
+  const queryClient = useQueryClient();
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: <AuthLayout />,
       children: [
         { index: true, element: <Navigate to="/signin" /> },
         {
-          path: 'signin',
+          path: "signin",
           children: [
             {
               index: true,
@@ -41,7 +47,7 @@ function App() {
               ),
             },
             {
-              path: 'reset-password',
+              path: "reset-password",
               children: [
                 {
                   index: true,
@@ -52,7 +58,7 @@ function App() {
                   ),
                 },
                 {
-                  path: 'step2',
+                  path: "step2",
                   element: (
                     <Suspense fallback="loading...">
                       <ResetPasswordStep2Page />
@@ -64,7 +70,7 @@ function App() {
           ],
         },
         {
-          path: 'signup',
+          path: "signup",
           children: [
             {
               index: true,
@@ -75,7 +81,7 @@ function App() {
               ),
             },
             {
-              path: 'verify-email',
+              path: "verify-email",
               element: (
                 <Suspense fallback="loading...">
                   <VerifyEmailPage />
@@ -87,23 +93,34 @@ function App() {
       ],
     },
     {
-      path: '/sso-callback',
+      path: "/sso-callback",
       element: <SSOCallback searchParams={{}} />,
     },
     {
-      path: '/dashboard',
+      path: "/dashboard",
       element: <DashboardLayout />,
       children: [
         {
           index: true,
-          element: (
-            <Suspense fallback="loading...">
-              <DashboardPage />
-            </Suspense>
-          ),
+          element: <Navigate to="rooms" />,
         },
         {
-          path: 'payroll',
+          path: "rooms",
+          children: [
+            {
+              index: true,
+              loader: roomsLoader(queryClient),
+              errorElement: <ErrorElement />,
+              element: (
+                <Suspense fallback="loading...">
+                  <RoomsPage />
+                </Suspense>
+              ),
+            },
+          ],
+        },
+        {
+          path: "payroll",
           element: (
             <Suspense fallback="loading...">
               <PayrollPage />
@@ -111,10 +128,18 @@ function App() {
           ),
         },
         {
-          path: 'pos',
+          path: "pos",
           element: (
             <Suspense fallback="loading...">
               <PosPage />
+            </Suspense>
+          ),
+        },
+        {
+          path: "account",
+          element: (
+            <Suspense fallback="loading...">
+              <AccountPage />
             </Suspense>
           ),
         },

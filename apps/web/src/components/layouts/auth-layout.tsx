@@ -1,15 +1,15 @@
-import { Link, Navigate, Outlet } from 'react-router-dom';
+import { Link, Navigate, Outlet } from "react-router-dom";
 
-import { Icons } from '@/components/icons';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
-import { useUser } from '@clerk/clerk-react';
-import { siteConfig } from '@/config/site';
+import { Icons } from "@/components/icons";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { useUser } from "@clerk/clerk-react";
+import { siteConfig } from "@/config/site";
 
 export function AuthLayout() {
   const { isLoaded, isSignedIn } = useUser();
 
   if (!isLoaded) {
-    return 'Loading...';
+    return "Loading...";
   }
 
   if (isSignedIn) {

@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import type { z } from 'zod';
+import * as React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type { z } from "zod";
 
-import { catchClerkError } from '@/lib/utils';
-import { checkEmailSchema } from '@/lib/validations/auth';
-import { Button } from '@/components/ui/button';
+import { catchClerkError } from "@/lib/utils";
+import { checkEmailSchema } from "@/lib/validations/auth";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,11 +14,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Icons } from '@/components/icons';
-import { useSignIn } from '@clerk/clerk-react';
-import { useNavigate } from 'react-router-dom';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Icons } from "@/components/icons";
+import { useSignIn } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
 type Inputs = z.infer<typeof checkEmailSchema>;
 
@@ -32,7 +32,7 @@ export function ResetPasswordForm() {
   const form = useForm<Inputs>({
     resolver: zodResolver(checkEmailSchema),
     defaultValues: {
-      email: '',
+      email: "",
     },
   });
 
@@ -43,14 +43,14 @@ export function ResetPasswordForm() {
       try {
         setLoading(true);
         const firstFactor = await signIn.create({
-          strategy: 'reset_password_email_code',
+          strategy: "reset_password_email_code",
           identifier: data.email,
         });
 
-        if (firstFactor.status === 'needs_first_factor') {
-          navigate('step2');
-          toast.message('Check your email', {
-            description: 'We sent you a 6-digit verification code.',
+        if (firstFactor.status === "needs_first_factor") {
+          navigate("step2");
+          toast.message("Check your email", {
+            description: "We sent you a 6-digit verification code.",
           });
         }
         setLoading(false);

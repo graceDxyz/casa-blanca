@@ -1,10 +1,10 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { Icons } from '@/components/icons';
-import { PasswordInput } from '@/components/password-input';
-import { Button } from '@/components/ui/button';
+import { Icons } from "@/components/icons";
+import { PasswordInput } from "@/components/password-input";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,14 +12,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { authSchema } from '@/lib/validations/auth';
-import { useNavigate } from 'react-router-dom';
-import { useSignUp } from '@clerk/clerk-react';
-import React from 'react';
-import { catchClerkError } from '@/lib/utils';
-import { toast } from 'sonner';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { authSchema } from "@/lib/validations/auth";
+import { useNavigate } from "react-router-dom";
+import { useSignUp } from "@clerk/clerk-react";
+import React from "react";
+import { catchClerkError } from "@/lib/utils";
+import { toast } from "sonner";
 
 type Inputs = z.infer<typeof authSchema>;
 
@@ -33,8 +33,8 @@ export function SignUpForm() {
   const form = useForm<Inputs>({
     resolver: zodResolver(authSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
@@ -51,12 +51,12 @@ export function SignUpForm() {
 
         // Send email verification code
         await signUp.prepareEmailAddressVerification({
-          strategy: 'email_code',
+          strategy: "email_code",
         });
 
-        navigate('/signup/verify-email');
-        toast.message('Check your email', {
-          description: 'We sent you a 6-digit verification code.',
+        navigate("/signup/verify-email");
+        toast.message("Check your email", {
+          description: "We sent you a 6-digit verification code.",
         });
         setLoading(false);
       } catch (err) {
