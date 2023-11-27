@@ -22,7 +22,7 @@ export default defineConfig(({ command, mode }) => {
           "/api": {
             target: isDev
               ? "http://localhost:5000/api"
-              : "https://agri-map-58go.onrender.com",
+              : "https://casa-blanca-dev-cfkt.2.us-1.fl0.io/api",
             changeOrigin: true,
             rewrite: (p) => p.replace(/^\/api/, ""),
           },

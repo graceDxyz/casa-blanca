@@ -23,7 +23,11 @@ export const createServer = (): Express => {
     .use(express.json())
     .use(
       cors({
-        origin: ["http://192.168.254.125:5173", "http://localhost:5173"],
+        origin: [
+          "http://192.168.254.125:5173",
+          "http://localhost:5173",
+          "https://casa-blanca-web.vercel.app",
+        ],
         credentials: true,
       }),
     )

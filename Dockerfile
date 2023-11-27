@@ -13,6 +13,5 @@ RUN pnpm deploy --filter=api --prod /prod/api
 FROM base AS api
 COPY --from=build /prod/api /prod/api
 WORKDIR /prod/api
-
 # EXPOSE 8000
 CMD [ "pnpm", "start" ]
