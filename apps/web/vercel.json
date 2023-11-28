@@ -1,9 +1,9 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" },
     {
       "source": "/api/:path*",
       "destination": "https://casa-blanca-dev-cfkt.2.us-1.fl0.io/api/:path*"
-    }
+    },
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
