@@ -7,7 +7,7 @@ import connect from "@/utils/connect";
 const port = env.PORT;
 const server = createServer();
 
-const app = server.listen(port, async (): void => {
+const app = server.listen(port, async (): Promise<void> => {
   await connect();
   logger.info(`api running on ${port}`);
 });

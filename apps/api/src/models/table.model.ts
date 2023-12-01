@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { RoomDocument } from "./room.model";
+import type { RoomDocument } from "./room.model";
 
 export interface TableInput {
   room: RoomDocument["_id"];
@@ -9,7 +9,7 @@ export interface TableInput {
   status: string;
 }
 
-export interface ITable extends TableInput, mongoose.Document {
+export interface TableDocument extends TableInput, mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
 }
@@ -47,6 +47,6 @@ const tableSchema = new mongoose.Schema(
   },
 );
 
-const TableModel = mongoose.model<ITable>("Table", tableSchema);
+const TableModel = mongoose.model<TableDocument>("Table", tableSchema);
 
 export default TableModel;

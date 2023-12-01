@@ -23,7 +23,6 @@ const ResetPasswordStep2Page = lazy(
 );
 const SignUpPage = lazy(() => import("@/pages/auth/SignUpPage"));
 const VerifyEmailPage = lazy(() => import("@/pages/auth/VerifyEmailPage"));
-// const DashboardPage = lazy(() => import("@/pages/dashboard/DashboardPage"));
 const PayrollPage = lazy(() => import("@/pages/dashboard/PayrollPage"));
 const PosPage = lazy(() => import("@/pages/dashboard/PosPage"));
 const AccountPage = lazy(() => import("@/pages/dashboard/AccountPage"));

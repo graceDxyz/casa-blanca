@@ -4,8 +4,10 @@ dotenv.config();
 import { StrictAuthProp } from "@clerk/clerk-sdk-node";
 import cors from "cors";
 import express, { Express, NextFunction, Request, Response } from "express";
+import http from "http";
 import logger from "logger";
 import morgan from "morgan";
+import { Server } from "socket.io";
 
 import routes from "@/routes";
 
@@ -15,7 +17,7 @@ declare global {
   }
 }
 
-export const createServer = (): Express => {
+export const createServer = () => {
   const app = express();
   app
     .disable("x-powered-by")
@@ -37,14 +39,34 @@ export const createServer = (): Express => {
 
   app.use("/api", routes);
 
-  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+    logger.error(err.stack);
     if (err.stack && err.stack.includes("Unauthenticated")) {
       res.status(401).send({ message: "Unauthenticated!" });
     } else {
-      logger.error(err.stack);
       res.status(500).send({ message: "Internal Server Error" });
     }
   });
 
-  return app;
+  const server = http.createServer(app);
+
+  const io = new Server(server);
+
+  io.on("connection", (socket) => {
+    logger.info(`+++++++++++ ${socket.id} connected`);
+
+    socket.on("join-room", (roomId: string) => {
+      logger.info(`joined ${roomId}`);
+      // socket.emit('room-not-found', {
+      //   message: "Oops! The Room ID you entered doesn't exist or hasn't been created yet.",
+      // })
+    });
+
+    socket.on("disconnect", () => {
+      logger.info(`+++++++++++ ${socket.id} disconnected`);
+      socket.emit("disconnected");
+    });
+  });
+
+  return server;
 };

@@ -4,7 +4,9 @@ import {
   PageHeaderHeading,
 } from "@/components/page-header";
 import { Shell } from "@/components/shells/shell";
+import { socket } from "@/lib/socketClient";
 import { roomLoader, useGetRoom } from "@/services/room.service";
+import { useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 
 function RoomPage() {
@@ -15,6 +17,17 @@ function RoomPage() {
   const { data, isLoading } = useGetRoom(initialData?._id ?? "", {
     initialData,
   });
+
+  useEffect(() => {
+    socket.close();
+    if (data) {
+      socket.connect();
+      socket.emit("join-room", data._id);
+    }
+    return function () {
+      socket.close();
+    };
+  }, [data]);
 
   if (isLoading) {
     return "Loading...";

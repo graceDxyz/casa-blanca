@@ -26,6 +26,11 @@ export default defineConfig(({ command, mode }) => {
             changeOrigin: true,
             rewrite: (p) => p.replace(/^\/api/, ""),
           },
+          "/socket.io": {
+            target: "ws://localhost:5000",
+            rewrite: (p) => p.replace(/^\/socket.io/, ""),
+            ws: true,
+          },
         },
       },
     };
