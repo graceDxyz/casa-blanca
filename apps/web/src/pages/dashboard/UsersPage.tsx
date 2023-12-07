@@ -17,7 +17,13 @@ function UsersPage() {
     return <UsersLoading />;
   }
   console.log(user, data);
-  return <div>UsersPage</div>;
+  return (
+    <div>
+      {data?.map((user) => {
+        return <div>{user.firstName}</div>;
+      })}
+    </div>
+  );
 }
 
 export default UsersPage;

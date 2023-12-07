@@ -1,4 +1,4 @@
-import { Room } from "schema";
+import { Icons } from "@/components/icons";
 import {
   Card,
   CardContent,
@@ -7,9 +7,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { Icons } from "@/components/icons";
+import { Link } from "react-router-dom";
+import { Room } from "schema";
 
 interface RoomCardProps {
   room: Room;
@@ -21,17 +21,27 @@ export function RoomCard({ room }: RoomCardProps) {
       <Link aria-label={room.name} to={`${room._id}`}>
         <CardHeader className="border-b p-0">
           <AspectRatio ratio={4 / 3}>
-            <div
-              aria-label="Placeholder"
-              role="img"
-              aria-roledescription="placeholder"
-              className="flex h-full w-full items-center justify-center bg-secondary"
-            >
-              <Icons.placeholder
-                className="h-9 w-9 text-muted-foreground"
-                aria-hidden="true"
+            {room.imageUrl ? (
+              <img
+                src={room.imageUrl}
+                alt={room.name}
+                className="object-cover h-full"
+                sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
+                loading="lazy"
               />
-            </div>
+            ) : (
+              <div
+                aria-label="Placeholder"
+                role="img"
+                aria-roledescription="placeholder"
+                className="flex h-full w-full items-center justify-center bg-secondary"
+              >
+                <Icons.placeholder
+                  className="h-9 w-9 text-muted-foreground"
+                  aria-hidden="true"
+                />
+              </div>
+            )}
           </AspectRatio>
         </CardHeader>
 
