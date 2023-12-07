@@ -3,7 +3,7 @@ import logger from "logger";
 import { env } from "@/env";
 import { createServer } from "@/server";
 import connect from "@/utils/connect";
-import seeder from "./utils/seeder";
+import seeder from "@/utils/seeder";
 
 const port = env.PORT;
 const server = createServer();
