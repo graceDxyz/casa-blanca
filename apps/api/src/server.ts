@@ -3,13 +3,14 @@ dotenv.config();
 
 import { StrictAuthProp } from "@clerk/clerk-sdk-node";
 import cors from "cors";
-import express, { Express, NextFunction, Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import http from "http";
 import logger from "logger";
 import morgan from "morgan";
 import { Server } from "socket.io";
 
 import routes from "@/routes";
+import path from "path";
 
 declare global {
   namespace Express {
@@ -19,23 +20,25 @@ declare global {
 
 export const createServer = () => {
   const app = express();
-  app
-    .disable("x-powered-by")
-    .use(morgan("dev"))
-    .use(express.json())
-    .use(
-      cors({
-        origin: [
-          "http://192.168.254.125:5173",
-          "http://localhost:5173",
-          "https://casa-blanca-web.vercel.app",
-        ],
-        credentials: true,
-      }),
-    )
-    .get("/status", (_, res) => {
-      return res.json({ ok: true });
-    });
+
+  app.disable("x-powered-by");
+  app.use(morgan("dev"));
+  app.use(express.json());
+  app.use(
+    cors({
+      origin: [
+        "http://192.168.254.125:5173",
+        "http://localhost:5173",
+        "https://casa-blanca-web.vercel.app",
+      ],
+      credentials: true,
+    }),
+  );
+  app.get("/status", (_, res) => {
+    return res.json({ ok: true });
+  });
+
+  app.use("/api/images/", express.static(path.join(__dirname, "images")));
 
   app.use("/api", routes);
 

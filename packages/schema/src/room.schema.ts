@@ -4,6 +4,7 @@ export const roomSchema = z.object({
   _id: z.string(),
   name: z.string(),
   description: z.string().nullish(),
+  imageUrl: z.string().nullish(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });

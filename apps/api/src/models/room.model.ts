@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 export interface RoomInput {
   name: string;
   description: string;
+  imageUrl: string;
 }
 
 export interface RoomDocument extends RoomInput, mongoose.Document {
@@ -17,6 +18,9 @@ const roomSchema = new mongoose.Schema(
       required: true,
     },
     description: {
+      type: String,
+    },
+    imageUrl: {
       type: String,
     },
   },
