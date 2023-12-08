@@ -26,12 +26,12 @@ function UsersPage() {
   return (
     <Shell variant="sidebar">
       <PageHeader
-        id="rooms-header"
-        aria-labelledby="rooms-header-heading"
+        id="users-header"
+        aria-labelledby="users-header-heading"
         separated
       >
-        <PageHeaderHeading size="sm">Rooms</PageHeaderHeading>
-        <PageHeaderDescription size="sm">Manage rooms</PageHeaderDescription>
+        <PageHeaderHeading size="sm">Users</PageHeaderHeading>
+        <PageHeaderDescription size="sm">Manage users</PageHeaderDescription>
       </PageHeader>
 
       <section className="flex flex-col space-y-6 px-2">
