@@ -1,10 +1,16 @@
-import { useDashboardUser } from "@/components/hooks/useDashboardUser";
+import { userColumns } from "@/components/data-table/columns/user-columns";
+import { DataTable } from "@/components/data-table/data-table";
 import UsersLoading from "@/components/loaders/user-loader";
+import {
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+} from "@/components/page-header";
+import { Shell } from "@/components/shells/shell";
 import { useGetUsers, usersLoader } from "@/services/user.service";
 import { useLoaderData } from "react-router-dom";
 
 function UsersPage() {
-  const user = useDashboardUser();
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof usersLoader>>
   >;
@@ -16,13 +22,22 @@ function UsersPage() {
   if (isLoading) {
     return <UsersLoading />;
   }
-  console.log(user, data);
+
   return (
-    <div>
-      {data?.map((user) => {
-        return <div>{user.firstName}</div>;
-      })}
-    </div>
+    <Shell variant="sidebar">
+      <PageHeader
+        id="rooms-header"
+        aria-labelledby="rooms-header-heading"
+        separated
+      >
+        <PageHeaderHeading size="sm">Rooms</PageHeaderHeading>
+        <PageHeaderDescription size="sm">Manage rooms</PageHeaderDescription>
+      </PageHeader>
+
+      <section className="flex flex-col space-y-6 px-2">
+        <DataTable data={data ?? []} columns={userColumns} />
+      </section>
+    </Shell>
   );
 }
 
